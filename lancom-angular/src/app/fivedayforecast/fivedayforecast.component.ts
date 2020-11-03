@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, OnInit, Input  } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
@@ -9,25 +9,34 @@ import { Observable, throwError } from 'rxjs';
 })
 
 @Injectable()
-export class FiveDayForecastComponent {
-  fireDayForeCast: any;
-  loader: boolean;
+export class FiveDayForecastComponent  implements OnInit {
+  @Input() values: number[];
+  fiveDayForeCast: any;
   constructor(private http: HttpClient) {
-    this.loader = false;
+    this.fiveDayForeCast = {};
+    this.getData('');
+  }
+  public barChartOptions = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels = ['dan1', 'dan2', 'dan3', 'dan4', 'dan5'];
+  public barChartType = 'line';
+  public barChartLegend = true;
+  public barChartData = [];
+  ngOnInit() {
   }
 
   getData(location: string) {
-    this.loader = true;
     this.http.get("http://localhost:8000/products")
       .subscribe((data:any) => {
-        /*data.forEach(l=>{
-          console.log("l",l);
-          let novi = {date:[]}
-          const asd = l.map(k=>new ForeCast(){day:"asd"})
-        })*/
-        this.fireDayForeCast = data;
-        console.log(this.fireDayForeCast);
-        this.loader = false;
+        this.fiveDayForeCast = data;
+        this.barChartData = [
+          {data:this.values, label: 1}
+        ];
+        console.log("DAAATA", this.values)
+        console.log(this.fiveDayForeCast);
+        console.log(this.fiveDayForeCast[0][0].description)
       });
   }
 }

@@ -6,7 +6,7 @@ import { faRedo } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'WeatherContainer',
   templateUrl: './weathercontainer.component.html',
-  styleUrls: ['./weathercontainer.component.css']
+  styleUrls: ['./weathercontainer.component.scss']
 })
 
 @Injectable()
@@ -16,18 +16,24 @@ export class WeatherContainerComponent {
   loader: boolean;
   date: InformationTime;
   reload = faRedo;
+  tempValues: number[];
   constructor(private http: HttpClient){
     this.loader = true;
     this.date = {} as InformationTime;
     this.currentCity = {} as CurrentWeather;
     this.city = "";
     this.getData('');
+    this.changeValues();
+    //this.tempValues= [1,2,3,4,4];
   }
 
   getData(location: string) {
     this.loader = true;
     this.http.get("http://localhost:8000/maribor")
       .subscribe((data:any) => {
+        console.log(data.list);
+        let temperature = [];
+        let index = 0;
         this.city = "Maribor";
         this.currentCity = data;
         var dt = new Date();
@@ -39,7 +45,6 @@ export class WeatherContainerComponent {
           day: dt.getDate(),
           
         }
-        //this.date = `${dt.getDate()}.${dt.getMonth()+1}.${dt.getFullYear()}`;
         this.loader = false;
       });
   }
@@ -50,6 +55,24 @@ export class WeatherContainerComponent {
 
   getDateInHours(): string{
     return `${this.date.hour}.${this.date.min}`;
+  }
+
+  changeValues(){
+    this.http.get("http://localhost:8000/products")
+      .subscribe((data:any) => {
+        
+        let temperature = [];
+        let index = 0;
+      data.forEach(i=>{
+        console.log(i);
+        if(index !== 0 && index < 6){
+          temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10)
+        }
+        index++;
+      });
+      this.tempValues=temperature;
+      console.log(temperature,"temper");
+    });
   }
 }
 
