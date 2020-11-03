@@ -10,7 +10,7 @@ import { Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class FiveDayForecastComponent {
-  fireDayForeCast: ForeCast[];
+  fireDayForeCast: any;
   loader: boolean;
   constructor(private http: HttpClient) {
     this.loader = false;
@@ -19,17 +19,26 @@ export class FiveDayForecastComponent {
   getData(location: string) {
     this.loader = true;
     this.http.get("http://localhost:8000/products")
-      .subscribe((data:ForeCast[]) => {
+      .subscribe((data:any) => {
+        /*data.forEach(l=>{
+          console.log("l",l);
+          let novi = {date:[]}
+          const asd = l.map(k=>new ForeCast(){day:"asd"})
+        })*/
         this.fireDayForeCast = data;
+        console.log(this.fireDayForeCast);
         this.loader = false;
       });
   }
 }
-
+interface Days{
+  day: ForeCast[]
+}
 interface ForeCast {
   day: string;
   temperature: string;
   date: string;
   description: string;
   icon: any;
+  wind: string;
 };
