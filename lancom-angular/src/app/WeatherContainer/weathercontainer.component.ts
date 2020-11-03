@@ -18,19 +18,38 @@ export class WeatherContainerComponent {
   date: InformationTime;
   reload = faRedo;
   tempValues: number[];
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient) {
     this.loader = true;
-    this.date = {} as InformationTime;
-    this.currentCity = {} as CurrentWeather;
-    this.city = "";
+    if (localStorage.getItem('DaysForChart')) {
+      this.daysValues = JSON.parse(localStorage.getItem('DaysForChart'));
+    }
+    if (localStorage.getItem('city')) {
+      this.city = localStorage.getItem('city');
+    } else {
+      this.city = "";
+    }
+    if (localStorage.getItem('currentCity')) {
+      this.currentCity = JSON.parse(localStorage.getItem('currentCity'));
+    } else {
+      this.currentCity = {} as CurrentWeather;
+    }
+    if (localStorage.getItem('date')) {
+      this.date = JSON.parse(localStorage.getItem('date'));
+    } else {
+      this.date = {} as InformationTime;
+    }
+    if (localStorage.getItem('temperatureByDaysForChart')) {
+      this.tempValues = JSON.parse(localStorage.getItem('temperatureByDaysForChart'));
+    }
     this.getData('');
     this.changeValues();
+    this.loader = false;
   }
 
   getData(location: string) {
     this.loader = true;
     this.http.get("http://localhost:8000/maribor")
-      .subscribe((data:any) => {
+      .subscribe((data: any) => {
         console.log(data.list);
         let temperature = [];
         let index = 0;
@@ -41,42 +60,47 @@ export class WeatherContainerComponent {
           year: dt.getFullYear(),
           min: dt.getMinutes(),
           hour: dt.getHours(),
-          month: dt.getMonth()+1,
+          month: dt.getMonth() + 1,
           day: dt.getDate(),
-          
+
         }
         this.loader = false;
+        localStorage.setItem("currentCity", JSON.stringify(data));
+        localStorage.setItem("date", JSON.stringify(this.date));
+        localStorage.setItem("city", 'Maribor');
       });
   }
 
-  getDateInDays(): string{
+  getDateInDays(): string {
     return `${this.date.day}.${this.date.month}.${this.date.year}`;
   }
 
-  getDateInHours(): string{
+  getDateInHours(): string {
     return `${this.date.hour}.${this.date.min}`;
   }
 
-  changeValues(){
+  changeValues() {
     this.http.get("http://localhost:8000/products")
-      .subscribe((data:any) => {
-        
+      .subscribe((data: any) => {
+
         let temperature = [];
         let days = []
         let index = 0;
-      data.forEach(i=>{
-        console.log(i);
-        if(index !== 0 && index < 6){
-          temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10);
-          days.push(i[0].date.substring(5,10));
-          console.log(i[0].date.substring(5,10),"DAn");
-        }
-        index++;
+        data.forEach(i => {
+          console.log(i);
+          if (index !== 0 && index < 6) {
+            temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10);
+            days.push(i[0].date.substring(5, 10));
+            console.log(i[0].date.substring(5, 10), "DAn");
+          }
+          index++;
+        });
+        this.tempValues = temperature;
+        this.daysValues = days;
+        localStorage.setItem("temperatureByDaysForChart", JSON.stringify(temperature));
+        localStorage.setItem("DaysForChart", JSON.stringify(days));
+        console.log(temperature, "temper");
       });
-      this.tempValues=temperature;
-      this.daysValues = days;
-      console.log(temperature,"temper");
-    });
   }
 }
 
