@@ -47,7 +47,7 @@ app.get('/maribor', function (req, res, next) {
             time: list.list[0].dt_txt,
             wind: list.list[0].wind.speed
         };
-        console.log(maribor);
+        console.log(list);
         res.json(maribor);
     });
 });

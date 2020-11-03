@@ -12,6 +12,7 @@ import { faRedo } from '@fortawesome/free-solid-svg-icons';
 @Injectable()
 export class WeatherContainerComponent {
   currentCity: CurrentWeather;
+  daysValues: string[];
   city: string;
   loader: boolean;
   date: InformationTime;
@@ -24,7 +25,6 @@ export class WeatherContainerComponent {
     this.city = "";
     this.getData('');
     this.changeValues();
-    //this.tempValues= [1,2,3,4,4];
   }
 
   getData(location: string) {
@@ -62,15 +62,19 @@ export class WeatherContainerComponent {
       .subscribe((data:any) => {
         
         let temperature = [];
+        let days = []
         let index = 0;
       data.forEach(i=>{
         console.log(i);
         if(index !== 0 && index < 6){
-          temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10)
+          temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10);
+          days.push(i[0].date.substring(5,10));
+          console.log(i[0].date.substring(5,10),"DAn");
         }
         index++;
       });
       this.tempValues=temperature;
+      this.daysValues = days;
       console.log(temperature,"temper");
     });
   }

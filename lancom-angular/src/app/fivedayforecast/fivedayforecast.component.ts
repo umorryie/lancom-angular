@@ -11,6 +11,7 @@ import { Observable, throwError } from 'rxjs';
 @Injectable()
 export class FiveDayForecastComponent  implements OnInit {
   @Input() values: number[];
+  @Input() days: string[];
   fiveDayForeCast: any;
   constructor(private http: HttpClient) {
     this.fiveDayForeCast = {};
@@ -20,7 +21,7 @@ export class FiveDayForecastComponent  implements OnInit {
     scaleShowVerticalLines: false,
     responsive: true
   };
-  public barChartLabels = ['dan1', 'dan2', 'dan3', 'dan4', 'dan5'];
+  public barChartLabels= [];
   public barChartType = 'line';
   public barChartLegend = true;
   public barChartData = [];
@@ -32,11 +33,9 @@ export class FiveDayForecastComponent  implements OnInit {
       .subscribe((data:any) => {
         this.fiveDayForeCast = data;
         this.barChartData = [
-          {data:this.values, label: 1}
+          {data:this.values, label: "dnevi"}
         ];
-        console.log("DAAATA", this.values)
-        console.log(this.fiveDayForeCast);
-        console.log(this.fiveDayForeCast[0][0].description)
+        this.barChartLabels = this.days;
       });
   }
 }
