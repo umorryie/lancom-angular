@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="b43510a2cede3576d08a514e2ce6c8d8cfcfac14" datatype="html">
+        <source>
+                Podatki dobljeni <x id="INTERPOLATION" equiv-text="{{getDateInDays()}}"/> ob <x id="INTERPOLATION_1" equiv-text="{{getDateInHours()}}"/>
+            </source>
+                    <target>
+                Information received <x id="INTERPOLATION" equiv-text="{{getDateInDays()}}"/> at <x id="INTERPOLATION_1" equiv-text="{{getDateInHours()}}"/>
+            </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/WeatherContainer/weathercontainer.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="de6ec5336955285e9a5a890e4acff1b6a0f90cd1" datatype="html">
+        <source>
+                    Trenutna temperatura: <x id="INTERPOLATION" equiv-text="{{currentCity.temp}}"/> °C
+                </source>
+                        <target>
+                    Current temperature: <x id="INTERPOLATION" equiv-text="{{currentCity.temp}}"/> °C
+                </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/WeatherContainer/weathercontainer.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89549b3770e079f46f88b1157950c1f51a0c3cc1" datatype="html">
+        <source>
+                    Opis: <x id="INTERPOLATION" equiv-text="{{currentCity.description}}"/>
+                </source>
+                        <target>
+                    Description: <x id="INTERPOLATION" equiv-text="{{currentCity.description}}"/>
+                </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/WeatherContainer/weathercontainer.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="63ff0e5589b350bb2ed7ce1d053384ccff33ca53" datatype="html">
+        <source>
+                    Min temp: <x id="INTERPOLATION" equiv-text="{{currentCity.minTemp}}"/>
+                </source>
+                        <target>
+                    Min temp: <x id="INTERPOLATION" equiv-text="{{currentCity.minTemp}}"/>
+                </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/WeatherContainer/weathercontainer.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="84da6e51c563033e6e69ab4672c39f1dc2e2b4bb" datatype="html">
+        <source>
+                    Max temp: <x id="INTERPOLATION" equiv-text="{{currentCity.maxTemp}}"/>
+                </source>
+                        <target>
+                    Max temp: <x id="INTERPOLATION" equiv-text="{{currentCity.maxTemp}}"/>
+                </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/WeatherContainer/weathercontainer.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
