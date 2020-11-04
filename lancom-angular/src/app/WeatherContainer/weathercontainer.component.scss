@@ -58,8 +58,14 @@ $header-color: #b2cced;
     }
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 786px) {
     .content{
+      font-size: 20px;
+    }
+    h1{
+      font-size: 25px;
+    }
+    h3{
       font-size: 20px;
     }
   }
