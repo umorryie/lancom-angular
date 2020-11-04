@@ -1,0 +1,19 @@
+$header-color: #b2cced;
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.siteHeader {
+    margin: 0;
+    padding: 0;
+    background-color: $header-color;
+}
+
+@media only screen and ( min-width: 768px ) and ( min-height: 768px ){
+    .siteHeader{
+        height: 56px;
+    }
+
+
+  }

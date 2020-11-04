@@ -1,4 +1,6 @@
-.loader {
+$base-color: #ffffff;
+$header-color: #b2cced;
+  .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
     border-radius: 50%;
@@ -12,4 +14,52 @@
     100% { transform: rotate(360deg); }
   }
 
-  $color-red: #dad5d5;
+
+  .backGround{
+    background-color: $base-color;
+  }
+
+  .content{
+    width: 100%;
+    color: $header-color;
+    font-size: 30px;
+  }
+
+  .cursor-pointer{
+    cursor: pointer;
+    transition: 0.4s;
+  }
+
+  .cursor-pointer:hover{
+    cursor: pointer;
+    transition: 0.4s;
+    transform: scale(1.4);
+  }
+
+  .weatherContent{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  @media (max-width: 1300px) {
+    .contentWeather{
+      display: inline !important;
+    }
+    .widthMediaClass{
+      max-width: 100%;
+    }
+    .mediaInlineClass{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .content{
+      font-size: 20px;
+    }
+  }

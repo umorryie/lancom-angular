@@ -86,10 +86,21 @@ export class WeatherContainerComponent {
       .subscribe((data: any) => {
         console.log(data);
         console.log("DAAAJMO");
-        let temperature = [];
-        let index = 0;
         this.city = data.name;
-        this.currentCity = data;
+        let temperature = [];
+        let days = []
+        let index = 0;
+        data.informacije.forEach(i => {
+          console.log(i);
+          if (index !== 0 && index < 6) {
+            temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10);
+            days.push(i[0].date.substring(5, 10));
+            console.log(i[0].date.substring(5, 10), "DAn");
+          }
+          index++;
+        });
+        this.tempValues = temperature;
+        this.daysValues = days;
         var dt = new Date();
         this.date = {
           year: dt.getFullYear(),
@@ -154,6 +165,7 @@ interface CurrentWeather {
   icon: any;
   wind: string;
   name: string;
+  informacije:any;
 };
 
 interface InformationTime {

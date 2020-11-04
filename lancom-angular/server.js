@@ -62,18 +62,6 @@ app.post('/location', function (req, res, next) {
     .then(list => {
         
         console.log("DAAAJMO", list);
-        /*const information = processListOfWeatherCasts(list);
-        const rezultat = information.map(el=>{
-            const key = Object.keys(el);
-            return el[key[0]].map(i=>{
-                return {
-                        date:i['dt_txt'],
-                        temperature:i.main.temp,
-                        description: i.weather[0].main,
-                        wind: i.wind.speed
-                };
-            });
-        });*/
         const maribor = {
             temp: Math.round((list.list[0].main.temp - 272.15) * 10) / 10,
             description: list.list[0].weather[0].main,
@@ -83,6 +71,18 @@ app.post('/location', function (req, res, next) {
             wind: list.list[0].wind.speed
         };
         maribor.name = list.city.name;
+        const information = processListOfWeatherCasts(list);
+        maribor.informacije = information.map(el=>{
+            const key = Object.keys(el);
+            return el[key[0]].map(i=>{
+                return {
+                        date:i['dt_txt'],
+                        temperature:i.main.temp,
+                        description: i.weather[0].main,
+                        wind: i.wind.speed
+                };
+            });
+        });
         res.json(maribor);
     });
 });
