@@ -50,7 +50,6 @@ export class WeatherContainerComponent {
     this.loader = true;
     this.http.get("http://localhost:8000/maribor")
       .subscribe((data: any) => {
-        console.log(data.list);
         let temperature = [];
         let index = 0;
         this.city = "Maribor";
@@ -69,6 +68,48 @@ export class WeatherContainerComponent {
         localStorage.setItem("date", JSON.stringify(this.date));
         localStorage.setItem("city", 'Maribor');
       });
+  }
+
+  getYourData() {
+    this.loader = true;
+    let long: number;
+    let lat: number;
+    navigator.geolocation.getCurrentPosition((data) => {
+      console.log(data.coords.longitude);
+      long = data.coords.longitude;
+      lat = data.coords.latitude;
+      console.log("LAAT","LONG", lat, long)
+      this.http.post<any>("http://localhost:8000/location", {
+      lat,
+      long,
+    })
+      .subscribe((data: any) => {
+        console.log(data);
+        console.log("DAAAJMO");
+        let temperature = [];
+        let index = 0;
+        this.city = data.name;
+        this.currentCity = data;
+        var dt = new Date();
+        this.date = {
+          year: dt.getFullYear(),
+          min: dt.getMinutes(),
+          hour: dt.getHours(),
+          month: dt.getMonth() + 1,
+          day: dt.getDate(),
+
+        }
+        this.loader = false;
+        localStorage.setItem("currentCity", JSON.stringify(data));
+        localStorage.setItem("date", JSON.stringify(this.date));
+        localStorage.setItem("city", 'Maribor');
+        this.loader = false;
+      });
+    }, ()=>{
+      window.alert("Ne podpiraš Geolocation API-ja. Ne moremo dobiti informacij o tvoji lokaciji.")
+    });
+    console.log(long,lat,"TO JE TO");
+    
   }
 
   getDateInDays(): string {
@@ -112,6 +153,7 @@ interface CurrentWeather {
   description: string;
   icon: any;
   wind: string;
+  name: string;
 };
 
 interface InformationTime {
