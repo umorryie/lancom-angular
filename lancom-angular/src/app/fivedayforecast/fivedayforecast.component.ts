@@ -33,7 +33,7 @@ export class FiveDayForecastComponent  implements OnInit {
       .subscribe((data:any) => {
         this.fiveDayForeCast = data;
         this.barChartData = [
-          {data:this.values, label: "dnevi"}
+          {data:this.values, label: "Temperatura zjutraj na določen dan"}
         ];
         this.barChartLabels = this.days;
       });
