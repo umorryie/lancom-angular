@@ -75,52 +75,44 @@ export class WeatherContainerComponent {
     let long: number;
     let lat: number;
     navigator.geolocation.getCurrentPosition((data) => {
-      console.log(data.coords.longitude);
       long = data.coords.longitude;
       lat = data.coords.latitude;
-      console.log("LAAT","LONG", lat, long)
       this.http.post<any>("http://localhost:8000/location", {
-      lat,
-      long,
-    })
-      .subscribe((data: any) => {
-        console.log(data);
-        console.log("DAAAJMO");
-        this.city = data.name;
-        let temperature = [];
-        let days = []
-        let index = 0;
-        data.informacije.forEach(i => {
-          console.log(i);
-          if (index !== 0 && index < 6) {
-            temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10);
-            days.push(i[0].date.substring(5, 10));
-            console.log(i[0].date.substring(5, 10), "DAn");
-          }
-          index++;
-        });
-        this.tempValues = temperature;
-        this.daysValues = days;
-        var dt = new Date();
-        this.date = {
-          year: dt.getFullYear(),
-          min: dt.getMinutes(),
-          hour: dt.getHours(),
-          month: dt.getMonth() + 1,
-          day: dt.getDate(),
+        lat,
+        long,
+      })
+        .subscribe((data: any) => {
+          this.city = data.name;
+          let temperature = [];
+          let days = []
+          let index = 0;
+          data.informacije.forEach(i => {
+            if (index !== 0 && index < 6) {
+              temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10);
+              days.push(i[0].date.substring(5, 10));
+            }
+            index++;
+          });
+          this.tempValues = temperature;
+          this.daysValues = days;
+          var dt = new Date();
+          this.date = {
+            year: dt.getFullYear(),
+            min: dt.getMinutes(),
+            hour: dt.getHours(),
+            month: dt.getMonth() + 1,
+            day: dt.getDate(),
 
-        }
-        this.loader = false;
-        localStorage.setItem("currentCity", JSON.stringify(data));
-        localStorage.setItem("date", JSON.stringify(this.date));
-        localStorage.setItem("city", 'Maribor');
-        this.loader = false;
-      });
-    }, ()=>{
+          }
+          this.loader = false;
+          localStorage.setItem("currentCity", JSON.stringify(data));
+          localStorage.setItem("date", JSON.stringify(this.date));
+          localStorage.setItem("city", 'Maribor');
+          this.loader = false;
+        });
+    }, () => {
       window.alert("Ne podpiraš Geolocation API-ja. Ne moremo dobiti informacij o tvoji lokaciji.")
     });
-    console.log(long,lat,"TO JE TO");
-    
   }
 
   getDateInDays(): string {
@@ -139,11 +131,9 @@ export class WeatherContainerComponent {
         let days = []
         let index = 0;
         data.forEach(i => {
-          console.log(i);
           if (index !== 0 && index < 6) {
             temperature.push(Math.round((i[0].temperature - 272.15) * 10) / 10);
             days.push(i[0].date.substring(5, 10));
-            console.log(i[0].date.substring(5, 10), "DAn");
           }
           index++;
         });
@@ -151,7 +141,6 @@ export class WeatherContainerComponent {
         this.daysValues = days;
         localStorage.setItem("temperatureByDaysForChart", JSON.stringify(temperature));
         localStorage.setItem("DaysForChart", JSON.stringify(days));
-        console.log(temperature, "temper");
       });
   }
 }
@@ -165,7 +154,7 @@ interface CurrentWeather {
   icon: any;
   wind: string;
   name: string;
-  informacije:any;
+  informacije: any;
 };
 
 interface InformationTime {
