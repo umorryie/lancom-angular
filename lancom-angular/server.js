@@ -12,11 +12,11 @@ const port = 8000;
 app.get('/products', function (req, res, next) {
     const cityName = 'Maribor';
     const apiKey = '737a23c3051627e22edea77974b4716a';
-    const data = fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=sl&appid=${apiKey}`)
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=sl&appid=${apiKey}`)
         .then(response => response.json())
         .then(list => {
-            const information = processListOfWeatherCasts(list);
-            const rezultat = information.map(el => {
+            const information = getResultsFromListOfWeathercasts(list);
+            const mariborInformations = information.map(el => {
                 const key = Object.keys(el);
                 return el[key[0]].map(i => {
                     return {
@@ -27,14 +27,14 @@ app.get('/products', function (req, res, next) {
                     };
                 });
             });
-            res.json(rezultat);
+            res.json(mariborInformations);
         });
 });
 
 app.get('/maribor', function (req, res, next) {
     const cityName = 'Maribor';
     const apiKey = '737a23c3051627e22edea77974b4716a';
-    const data = fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=sl&appid=${apiKey}`)
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=sl&appid=${apiKey}`)
         .then(response => response.json())
         .then(list => {
             const maribor = {
@@ -55,7 +55,7 @@ app.post('/location', function (req, res, next) {
     const data = fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&lang=sl&appid=${apiKey}`)
         .then(response => response.json())
         .then(list => {
-            const maribor = {
+            const townOfLatAndLon = {
                 temp: Math.round((list.list[0].main.temp - 272.15) * 10) / 10,
                 description: list.list[0].weather[0].description,
                 minTemp: Math.round((list.list[0].main.temp_min - 272.15) * 10) / 10,
@@ -63,9 +63,9 @@ app.post('/location', function (req, res, next) {
                 time: list.list[0].dt_txt,
                 wind: list.list[0].wind.speed
             };
-            maribor.name = list.city.name;
-            const information = processListOfWeatherCasts(list);
-            maribor.informacije = information.map(el => {
+            townOfLatAndLon.name = list.city.name;
+            const information = getResultsFromListOfWeathercasts(list);
+            townOfLatAndLon.informacije = information.map(el => {
                 const key = Object.keys(el);
                 return el[key[0]].map(i => {
                     return {
@@ -76,7 +76,7 @@ app.post('/location', function (req, res, next) {
                     };
                 });
             });
-            res.json(maribor);
+            res.json(townOfLatAndLon);
         });
 });
 
@@ -84,17 +84,16 @@ app.listen(port, async function () {
     console.log(`CORS-enabled web server listening on port ${port}`);
 });
 
-function processListOfWeatherCasts(list) {
+function getResultsFromListOfWeathercasts(list) {
     const differentDays = list.list.map(day => day['dt_txt']);
     let setDays = new Set();
-    const differentDayz = differentDays.map(day => {
-        setDays.add(day.substring(0, 10))
-        return day.substring(0, 10)
+    differentDays.forEach(day => {
+        setDays.add(day.substring(0, 10));
     });
     const unieuqDays = Array.from(setDays);
-    const rezultat = unieuqDays.map(element => {
-        const novi = list.list.filter(el => el['dt_txt'].includes(element));
-        return { [element]: novi };
+    const weatherCastResult = unieuqDays.map(element => {
+        const mappedDays = list.list.filter(el => el['dt_txt'].includes(element));
+        return { [element]: mappedDays };
     })
-    return rezultat;
+    return weatherCastResult;
 }
