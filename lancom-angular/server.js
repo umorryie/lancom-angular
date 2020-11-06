@@ -1,11 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const puppeteer = require("puppeteer");
 const fetch = require('node-fetch');
 const app = express();
-const cherio = require('cheerio');
-const axios = require("axios")
-const { JSDOM } = require('jsdom')
 const bodyParser = require('body-parser')
 app.use(cors());
 app.use(express.json());
